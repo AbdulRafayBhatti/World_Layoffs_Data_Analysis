@@ -183,8 +183,9 @@ Layoffs-SQL-Data-Cleaning/
 │
 ├── README.md
 ├── layoffs_cleaning.sql
-├── layoffs_Cleaned.csv   ← Final cleaned dataset (from layoffs_staging1)
-└── layoffs.csv
+├── dataset/
+│   ├── layoffs.csv
+│   └── layoffs_Cleaned.csv   ← Final cleaned dataset (from layoffs_staging1)
 ```
 
 ---
