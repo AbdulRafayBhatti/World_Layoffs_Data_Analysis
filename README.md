@@ -1,230 +1,336 @@
-# Layoffs Data Cleaning Using SQL 
+# 🌍 Global Layoffs Data Cleaning & Exploratory Data Analysis Using SQL
 
-A **SQL data cleaning project** that transforms a raw global layoffs dataset into a clean, structured, and analysis-ready dataset.
+An end-to-end SQL analytics project focused on cleaning, transforming, and analyzing a global layoffs dataset using MySQL.
 
-This project demonstrates professional-level data preprocessing techniques used in real data analytics workflows.
-
----
-
-# 📊 Overview
-
-The dataset contains global company layoffs data with inconsistencies such as:
-
-- Duplicate records  
-- Missing values  
-- Unstructured text fields  
-- Incorrect data types  
-- Inconsistent formatting  
-
-This project applies SQL-based cleaning techniques to convert it into a **high-quality analytical dataset**.
+This project demonstrates real-world data analyst workflows including:
+- Data cleaning
+- Data transformation
+- Exploratory Data Analysis (EDA)
+- Business insight generation
+- SQL analytics techniques
 
 ---
 
-# 🗂 Dataset Schema
+# 📌 Project Overview
 
-| # | Column | Description |
-|---|---|---|
-| 1 | company | Company name |
-| 2 | location | Company location |
-| 3 | industry | Industry sector |
-| 4 | total_laid_off | Number of employees laid off |
-| 5 | percentage_laid_off | Percentage of workforce laid off |
-| 6 | date | Layoff announcement date |
-| 7 | stage | Company funding stage |
-| 8 | country | Country of company |
-| 9 | funds_raised_millions | Total funds raised |
+The dataset contains global layoffs information from companies across multiple industries and countries.
+
+The raw data included:
+- Duplicate records
+- Missing values
+- Inconsistent formatting
+- Invalid data types
+- Unstructured categorical values
+
+The project transforms the raw dataset into a clean analytical dataset and performs SQL-based exploratory analysis to uncover business insights and layoff trends.
 
 ---
 
-# ⚙️ Data Cleaning Pipeline
+# 💼 Business Problem
+
+Organizations, investors, and analysts need to understand:
+- Which companies experienced the highest layoffs
+- Which industries were most affected
+- Layoff trends over time
+- Country-wise layoff impact
+- Startup funding stage risks
+- Economic downturn patterns
+
+This project helps answer those business questions using SQL.
+
+---
+
+# 🗂 Dataset Information
+
+The dataset contains global company layoff records including:
+- Company information
+- Industry
+- Location
+- Layoff counts
+- Layoff percentages
+- Funding stages
+- Dates
+- Funds raised
+
+---
+
+# 🧱 Dataset Schema
+
+| Column | Description |
+|---|---|
+| company | Company name |
+| location | Company location |
+| industry | Industry sector |
+| total_laid_off | Number of employees laid off |
+| percentage_laid_off | Percentage of workforce laid off |
+| date | Layoff announcement date |
+| stage | Company funding stage |
+| country | Country name |
+| funds_raised_millions | Total funds raised in millions |
+
+---
+
+# 🏗 Project Architecture
 
 ```text
 Raw Dataset
      │
      ▼
-Staging Table Creation (layoffs_staging)
+Data Cleaning Layer
+     │
+     ├── Duplicate Removal
+     ├── Standardization
+     ├── Missing Value Handling
+     ├── Date Conversion
+     └── Invalid Row Filtering
      │
      ▼
-Duplicate Detection (ROW_NUMBER)
+Cleaned Dataset
      │
      ▼
-Cleaned Staging Table (layoffs_staging1)
+Exploratory Data Analysis
+     │
+     ├── Company Analysis
+     ├── Industry Analysis
+     ├── Country Analysis
+     ├── Time-Series Analysis
+     ├── Stage Analysis
+     └── Trend Analysis
      │
      ▼
-Standardization
-  ├── Trim company names
-  ├── Normalize industry values
-  ├── Fix country formatting
-     │
-     ▼
-Data Type Conversion
-  ├── Convert date → DATE format
-     │
-     ▼
-Missing Value Handling
-  ├── Fill industry using company mapping
-     │
-     ▼
-Filtering Invalid Rows
-  ├── Remove NULL layoffs records
-     │
-     ▼
-Final Clean Dataset (layoffs_Cleaned.csv)
+Business Insights
 ```
 
 ---
 
-# 🧰 Technology Stack
+# 🧹 Data Cleaning Workflow
 
-- 🗄 MySQL — Data Cleaning & Transformation  
-- 🧠 SQL Window Functions — Duplicate detection  
-- 🔍 CTEs — Data preprocessing  
-- 🧹 String Functions — Data standardization  
-- 📅 Date Functions — Date conversion  
-- ⚡ GitHub — Version control & hosting  
+## ✔ Created Staging Tables
+Used staging tables to preserve raw data integrity.
 
----
+## ✔ Removed Duplicate Records
+Used `ROW_NUMBER()` with window functions to identify duplicates.
 
-# 🧪 Key SQL Techniques
+## ✔ Standardized Data
+- Trimmed company names
+- Standardized industry categories
+- Fixed country formatting
 
-- `ROW_NUMBER()` for duplicate detection  
-- Common Table Expressions (CTEs)  
-- Self JOIN for missing value imputation  
-- `STR_TO_DATE()` for date conversion  
-- `TRIM()` for text cleaning  
-- Conditional DELETE operations  
-- Table modification using `ALTER TABLE`  
+## ✔ Converted Date Formats
+Used `STR_TO_DATE()` to convert text dates into SQL DATE format.
 
----
+## ✔ Handled Missing Values
+- Converted blanks to NULL
+- Filled missing industries using self joins
 
-# 🧼 Data Cleaning Workflow
-
-## 🔹 1. Staging Layer
-
-A staging table is created to preserve raw data integrity.
-
-```sql
-CREATE TABLE layoffs_staging LIKE layoffs;
-INSERT INTO layoffs_staging SELECT * FROM layoffs;
-```
+## ✔ Removed Invalid Rows
+Deleted records with missing layoff metrics.
 
 ---
 
-## 🔹 2. Duplicate Detection
+# 📊 Exploratory Data Analysis Workflow
 
-Duplicates are identified using:
-
-```sql
-ROW_NUMBER() OVER (
-PARTITION BY company, location, industry,
-total_laid_off, percentage_laid_off,
-date, stage, country, funds_raised_millions
-)
-```
+The cleaned dataset was analyzed to answer key business questions.
 
 ---
 
-## 🔹 3. Duplicate Removal
+## 🔹 Total Layoffs by Company
 
-Only rows where `row_num = 1` are retained.
+Identified companies with the highest workforce reductions.
 
----
-
-## 🔹 4. Standardization
-
-- Company names cleaned using `TRIM()`  
-- Industry values unified (e.g., Crypto variations → Crypto)  
-- Country formatting fixed  
+### Business Insight
+Large tech companies experienced the highest layoffs during economic slowdowns.
 
 ---
 
-## 🔹 5. Date Conversion
+## 🔹 Layoffs by Industry
 
-```sql
-STR_TO_DATE(date, '%m/%d/%Y')
-```
+Analyzed which industries were most impacted.
 
-Converted string dates into proper SQL DATE format.
-
----
-
-## 🔹 6. Missing Value Handling
-
-- Blank industries converted to `NULL`  
-- Missing values filled using company-based matching  
+### Business Insight
+Technology and consumer sectors experienced major workforce reductions.
 
 ---
 
-## 🔹 7. Filtering Invalid Data
+## 🔹 Layoffs by Country
 
-Removed rows where:
+Compared layoffs across countries.
 
-- `total_laid_off IS NULL`
-- `percentage_laid_off IS NULL`
+### Business Insight
+The United States recorded the highest layoffs among all countries.
 
 ---
 
-# 📈 Before vs After Cleaning
+## 🔹 Yearly Layoff Trends
+
+Analyzed layoffs by year.
+
+### Business Insight
+Layoffs increased significantly during economic uncertainty periods.
+
+---
+
+## 🔹 Monthly Layoff Trends
+
+Performed month-over-month layoff analysis.
+
+### Business Insight
+Certain months showed major spikes in layoffs, indicating economic instability periods.
+
+---
+
+## 🔹 Rolling Total Analysis
+
+Used window functions to calculate cumulative layoffs over time.
+
+### Business Insight
+Cumulative layoffs steadily increased across the observed timeline.
+
+---
+
+## 🔹 Funding Stage Analysis
+
+Analyzed layoffs based on company funding stage.
+
+### Business Insight
+Late-stage companies reported larger layoffs due to operational restructuring.
+
+---
+
+## 🔹 Top Companies by Year
+
+Used ranking functions to identify the top companies with highest layoffs per year.
+
+
+
+---
+
+# 🧠 Key SQL Techniques Used
+
+- Common Table Expressions (CTEs)
+- Window Functions
+- ROW_NUMBER()
+- DENSE_RANK()
+- Aggregate Functions
+- Rolling Totals
+- Self JOINs
+- Date Functions
+- String Functions
+- Data Transformation
+- Data Cleaning
+
+---
+
+# 🛠 SQL Concepts Demonstrated
+
+| Concept | Usage |
+|---|---|
+| CTEs | Modular query building |
+| Window Functions | Ranking & rolling totals |
+| Aggregate Functions | Trend analysis |
+| Self JOIN | Missing value handling |
+| Date Functions | Time-series analysis |
+| String Functions | Data standardization |
+
+---
+
+# 📈 EDA Highlights
+
+- Top companies by layoffs
+- Industry-wise layoffs
+- Country-wise layoffs
+- Yearly trends
+- Monthly trends
+- Rolling totals
+- Funding stage analysis
+- Top 5 companies per year
+
+---
+
+# 📊 Before vs After Cleaning
 
 | Issue | Status |
 |---|---|
-| Duplicate Records | ❌ Removed |
-| Inconsistent Formatting | ❌ Fixed |
-| Invalid Date Types | ❌ Converted |
-| Missing Values | ❌ Handled |
-| Irrelevant Rows | ❌ Removed |
+| Duplicate Records | Removed |
+| Missing Values | Handled |
+| Invalid Dates | Converted |
+| Formatting Issues | Fixed |
+| Unnecessary Rows | Removed |
 
 ---
 
 # 📦 Project Structure
 
 ```text
-Layoffs-SQL-Data-Cleaning/
+Global-Layoffs-SQL-Analysis/
 │
 ├── README.md
-├── layoffs_cleaning.sql
-├── dataset/
-│   ├── layoffs.csv
-│   └── layoffs_Cleaned.csv   ← Final cleaned dataset (from layoffs_staging1)
+│
+├── sql/
+│   ├── data_cleaning.sql
+│   └── exploratory_data_analysis.sql
+│
+└── dataset/
+    ├── layoffs.csv
+    └── layoffs_cleaned.csv  ← Final cleaned dataset (from layoffs_staging1)
 ```
 
 ---
 
-# 🎯 Final Output
+# ⚙️ Technology Stack
 
-The dataset is now:
+- MySQL
+- SQL
+- GitHub
+- CSV Dataset
 
-✔ Clean  
-✔ Structured  
-✔ Analysis-ready  
-✔ Visualization-friendly  
-✔ Business intelligence ready  
+---
+
+# 🎯 Final Outcomes
+
+The project successfully:
+- Cleaned messy real-world data
+- Built analysis-ready datasets
+- Generated business insights
+- Demonstrated advanced SQL skills
+- Simulated real analyst workflows
 
 ---
 
 # 🚀 Use Cases
 
-This dataset can now be used for:
-
-- 📊 Exploratory Data Analysis (EDA)  
-- 📉 Layoff trend analysis  
-- 📈 Business dashboards  
-- 🧠 Data science modeling  
-- 📌 Company benchmarking  
+This project can support:
+- Business Intelligence
+- Workforce analysis
+- Economic trend analysis
+- Executive reporting
+- Dashboard development
+- Data science preprocessing
 
 ---
 
-# 💡 Design Philosophy
+# 📚 Learning Outcomes
 
-This project follows a **multi-layer data cleaning architecture**:
+Through this project, the following skills were strengthened:
+- SQL Data Cleaning
+- Data Transformation
+- Exploratory Data Analysis
+- Window Functions
+- Business Analysis
+- Analytical Thinking
+- GitHub Documentation
 
-Raw Data → Staging → Transformation → Final Dataset
+---
 
-This ensures:
-- Data integrity  
-- Reproducibility  
-- Scalability  
-- Real-world analytics readiness  
+# 🔮 Future Improvements
+
+Possible future enhancements:
+- Power BI dashboard
+- Tableau dashboard
+- Python EDA
+- Predictive analytics
+- SQL stored procedures
+- Automated ETL workflows
 
 ---
 
@@ -236,13 +342,11 @@ Special thanks to:
 
 YouTube Channel: https://www.youtube.com/@AlexTheAnalyst
 
-for providing excellent SQL and data analytics tutorials that guided and inspired this project.
+for providing valuable SQL and data analytics learning resources.
 
 ---
 
 # 👨‍💻 Author
 
-**Abdul Rafay Bhatti**  
-Aspiring Data Analyst | SQL Enthusiast | Data Engineering Learner  
-
----
+## Abdul Rafay Bhatti
+Aspiring Data Analyst | SQL Enthusiast | Data Analytics Learner
