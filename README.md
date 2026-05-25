@@ -1,4 +1,4 @@
-# 🌍 Global Layoffs Data Cleaning & Exploratory Data Analysis Using SQL
+# 🌍 World Layoffs Data Cleaning & Exploratory Analysis Using SQL
 
 An end-to-end SQL analytics project focused on cleaning, transforming, and analyzing a global layoffs dataset using MySQL.
 
