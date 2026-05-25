@@ -128,7 +128,7 @@ Deleted records with missing layoff metrics.
 
 ---
 
-# 📊 Before vs After Cleaning
+# Before vs After Cleaning
 
 | Issue | Status |
 |---|---|
