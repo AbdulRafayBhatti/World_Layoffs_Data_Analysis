@@ -128,6 +128,18 @@ Deleted records with missing layoff metrics.
 
 ---
 
+# 📊 Before vs After Cleaning
+
+| Issue | Status |
+|---|---|
+| Duplicate Records | Removed |
+| Missing Values | Handled |
+| Invalid Dates | Converted |
+| Formatting Issues | Fixed |
+| Unnecessary Rows | Removed |
+
+---
+
 # 📊 Exploratory Data Analysis Workflow
 
 The cleaned dataset was analyzed to answer key business questions.
@@ -244,18 +256,6 @@ Used ranking functions to identify the top companies with highest layoffs per ye
 - Rolling totals
 - Funding stage analysis
 - Top 5 companies per year
-
----
-
-# 📊 Before vs After Cleaning
-
-| Issue | Status |
-|---|---|
-| Duplicate Records | Removed |
-| Missing Values | Handled |
-| Invalid Dates | Converted |
-| Formatting Issues | Fixed |
-| Unnecessary Rows | Removed |
 
 ---
 
